@@ -21,6 +21,10 @@
 
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8 grid grid-cols-5 gap-2">
 
+            <div class="col-span-5">
+                <h3 class="text-2xl font-semibold">Treeview Challenge</h3>
+            </div>
+
             <div class="col-span-3 p-4 bg-gray-200 shadow-sm sm:rounded-lg">
 
                 <span class="font-semibold">{{ json.name }}</span>

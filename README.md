@@ -1,3 +1,18 @@
+# Treeview Demo
+
+## Installation
+
+Once you've cloned the repo run the following commands inside the project folder:
+```
+composer install
+npm install 
+php artisan migrate --seed
+composer run dev
+```
+Authentication is disabled so no need to register/login - I used the Laravel Breeze starter kit to install and setup Vue3 to speed up the environment build.  I then disabled what I didn't need.
+
+Once you've run `composer run dev` you'll have details of the url to access the demo.
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">

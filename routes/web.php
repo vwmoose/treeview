@@ -26,7 +26,7 @@ use Inertia\Inertia;
 //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // });
 
-Route::get('/{test?}', [TreeViewController::class, 'index'])->name('treeview');
+Route::get('/', [TreeViewController::class, 'index'])->name('treeview');
 
 
 require __DIR__.'/auth.php';

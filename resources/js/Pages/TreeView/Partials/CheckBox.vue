@@ -11,7 +11,12 @@
 
     const emit = defineEmits(['verifyDescendants'])
 
-    const isExpanded = ref(toValue(props.form.filter(item => props.checkbox.descendants.map(desc => desc.code).includes(item.code))).length > 0)
+    const isExpanded = ref(false)
+
+    onMounted(() => {
+        /* set initial state */
+        isExpanded.value = toValue(props.form.filter(item => props.checkbox.descendants.map(desc => desc.code).includes(item.code))).length > 0
+    })
 
     const checkedDescendants = computed(() => {
         return props.form.filter(item => props.checkbox.descendants.map(desc => desc.code).includes(item.code))
@@ -52,10 +57,7 @@
             } 
 
             /* if not already added */
-            if (!props.form.map(checkedItem => checkedItem.code).includes(props.checkbox.code)) {
-                /* add checked */
-                props.form.push(props.checkbox)
-            }
+            addItem(props.checkbox)
 
         } else {
             /* check for descendants */
@@ -66,10 +68,10 @@
 
             /* delete single parent item */
             deleteItemFromForm(props.checkbox.code)
-
-            /* check parent has any descendants left */
-            emit('verifyDescendants')
         }
+
+        /* check parent has any descendants left and tidy up if necessary */
+        emit('verifyDescendants')
     }
 
     const deleteItemFromForm = (code) => {
@@ -85,6 +87,14 @@
         }
     }
 
+    const addItem = (item) => {
+        /* if not already added */
+        if (!props.form.map(checkedItem => checkedItem.code).includes(item.code)) {
+            /* add checked */
+            props.form.push(item)
+        }
+    }
+
     const addDescendants = (descendants) => {
         /* add all descendants */
         descendants.forEach((item) => {
@@ -92,7 +102,7 @@
             if (item.descendants.length > 0) addDescendants(item.descendants)
 
             /* check not already added */
-            if (!props.form.map(checkedItem => checkedItem.code).includes(item.code)) props.form.push(item)
+            addItem(item)
         })
     }
 
@@ -108,10 +118,14 @@
     }
 
     const verifyDescendants = () => {
-        console.log('verifying all descendants have been removed - housekeeping')
-
-        /* check for checked descendants exist - upstream housekeeping */
-        if (toValue(checkedDescendants).length == 0) deleteItemFromForm(props.checkbox.code)
+        /* check for checked descendants exist */
+        if (toValue(checkedDescendants).length == 0) {
+            /* remove the parent as there are no descendants selected */
+            deleteItemFromForm(props.checkbox.code)
+        } else {
+            /* add parent as there is now a descendant selected */
+            addItem(props.checkbox)
+        }
     }
 
 </script>
